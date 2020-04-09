@@ -1,3 +1,6 @@
+let secureEnv = require("secure-env");
+global.env = secureEnv({ secret: "password" });
+
 const express = require("express");
 
 const postsRouter = require("./data/router");
@@ -8,9 +11,12 @@ server.use(express.json());
 
 server.use("/api/posts", postsRouter);
 
+const message = global.env.MESSAGE;
+
 server.get("/", (req, res) => {
   res.send(`
         <h2>This is a test API - Enjoy</h2>
+        ${message}
     `);
 });
 
